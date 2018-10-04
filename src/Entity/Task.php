@@ -31,6 +31,12 @@ class Task
      */
     private $state;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fkCategory;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +74,18 @@ class Task
     public function setState(int $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getFkCategory(): ?Category
+    {
+        return $this->fkCategory;
+    }
+
+    public function setFkCategory(?Category $fkCategory): self
+    {
+        $this->fkCategory = $fkCategory;
 
         return $this;
     }
