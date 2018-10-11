@@ -27,15 +27,16 @@ class Task
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $state;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fkCategory;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\State", inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fkState;
 
     public function getId(): ?int
     {
@@ -66,18 +67,6 @@ class Task
         return $this;
     }
 
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): self
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
     public function getFkCategory(): ?Category
     {
         return $this->fkCategory;
@@ -89,4 +78,17 @@ class Task
 
         return $this;
     }
+
+    public function getFkState(): ?State
+    {
+        return $this->fkState;
+    }
+
+    public function setFkState(?State $fkState): self
+    {
+        $this->fkState = $fkState;
+
+        return $this;
+    }
+
 }
