@@ -15,9 +15,11 @@ class TaskController extends AbstractController
      */
     public function index()
     {
-        return $this->render('task/index.html.twig', [
-            'controller_name' => 'TaskController',
-        ]);
+        $tasks = $this->getDoctrine()
+                      ->getRepository(Task::class)
+                      ->findAll();
+
+        return $this->render('task/displayTask.html.twig', array("tasks" => $tasks));
     }
 
     /**
@@ -39,5 +41,24 @@ class TaskController extends AbstractController
         }
 
         return $this->render('task/newTask.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/deleteTask/{id}", name="deleteTask")
+     */
+    public function deleteTask($id=null)
+    {
+        $tasks = $this->getDoctrine()
+                      ->getRepository(Task::class)
+                      ->findAll();
+
+        if ($id != null) {
+            $em = $this->getdoctrine()->getManager();
+            $task = $em->getRepository(Task::class)->find($id);
+            $em->remove($task);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('task'));
     }
 }

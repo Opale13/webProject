@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for task in tasks %}
+        <div>
+            Title: {{ task.title }} </br>
+            Descritpion: {{ task.description }} </br>
+            Category: {{ task.fkCategory.title}} </br>
+
+            <a href="http://localhost/webProject/public/index.php/deleteTask/{{ task.id }}"> Delete </a>
+        </div>
+    {% endfor %}
+{% endblock %}
