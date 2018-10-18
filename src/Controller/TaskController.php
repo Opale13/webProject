@@ -23,9 +23,9 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/newTask", name="newTask")
+     * @Route("/createTask", name="createTask")
      */
-    public function newTask(Request $request)
+    public function createTask(Request $request)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -40,7 +40,7 @@ class TaskController extends AbstractController
             return $this->redirect($this->generateUrl('task'));
         }
 
-        return $this->render('task/newTask.html.twig', array('form' => $form->createView()));
+        return $this->render('task/createTask.html.twig', array('form' => $form->createView()));
     }
 
     /**

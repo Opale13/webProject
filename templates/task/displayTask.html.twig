@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a class="btn btn-success" href="http://localhost/webProject/public/index.php/createCategory"> Create new Category </a>
+    <a class="btn btn-success" href="http://localhost/webProject/public/index.php/createTask"> Create new Task </a>
+
     {% for task in tasks %}
         <div>
             Title: {{ task.title }} </br>
             Descritpion: {{ task.description }} </br>
             Category: {{ task.fkCategory.title}} </br>
+            Status : {{ task.fkState.name }} </br>
 
-            <a href="http://localhost/webProject/public/index.php/modifyTask/{{ task.id }}"> Modify </a>
-            <a href="http://localhost/webProject/public/index.php/deleteTask/{{ task.id }}"> Delete </a>
+            <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/modifyTask/{{ task.id }}"> Modify </a>
+            <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/deleteTask/{{ task.id }}"> Delete </a>
         </div>
     {% endfor %}
 {% endblock %}

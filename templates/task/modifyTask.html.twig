@@ -2,6 +2,10 @@
 
 {% block body %}
     {{ form_start(form) }}
-        
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.fkCategory) }}
+        {{ form_row(form.fkState) }}
+        {{ form_row(form.save, { 'label': 'Modify' }) }}
     {{ form_end(form) }}
 {% endblock %}
