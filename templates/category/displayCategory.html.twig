@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for category in categories %}
+        <div>
+            Title: {{ category.title }} </br>
+            Descritpion: {{ category.description }} </br>
+
+            <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/modifyCategory/{{ category.id }}"> Modify </a>
+            <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/deleteCategory/{{ category.id }}"> Delete </a>
+        </div>
+    {% endfor %}
+{% endblock %}

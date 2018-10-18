@@ -1,9 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a class="btn btn-success" href="http://localhost/webProject/public/index.php/createCategory"> Create new Category </a>
-    <a class="btn btn-success" href="http://localhost/webProject/public/index.php/createTask"> Create new Task </a>
-
     {% for task in tasks %}
         <div>
             Title: {{ task.title }} </br>
