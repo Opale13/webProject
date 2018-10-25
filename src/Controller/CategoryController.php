@@ -72,10 +72,6 @@ class CategoryController extends AbstractController
      */
     public function deleteCategory($id)
     {
-        $category = $this->getDoctrine()
-                      ->getRepository(category::class)
-                      ->findAll();
-
         if ($id != null) {
             $em = $this->getdoctrine()->getManager();
             $category = $em->getRepository(category::class)->find($id);
