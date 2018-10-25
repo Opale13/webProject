@@ -23,11 +23,6 @@ class State
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="fkState")
-     */
-    private $tasks;
-
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -46,37 +41,6 @@ class State
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Task[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setFkState($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->contains($task)) {
-            $this->tasks->removeElement($task);
-            // set the owning side to null (unless already changed)
-            if ($task->getFkState() === $this) {
-                $task->setFkState(null);
-            }
-        }
 
         return $this;
     }

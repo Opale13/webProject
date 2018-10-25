@@ -52,17 +52,17 @@ class TaskController extends AbstractController
                      ->getRepository(Task::class)
                      ->find($id);
 
-         $form = $this->createForm(TaskType::class, $task);
-         $form->handleRequest($request);
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
 
-         if ($form->isSubmitted() && $form->isValid())
-         {
-             $em = $this->getDoctrine()->getManager();
-             $em->persist($task);
-             $em->flush();
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($task);
+            $em->flush();
 
-             return $this->redirect($this->generateUrl('task'));
-         }
+            return $this->redirect($this->generateUrl('task'));
+        }
 
         return $this->render('task/modifyTask.html.twig', array('form' => $form->createView()));
     }
