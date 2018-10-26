@@ -44,6 +44,7 @@ class CategoryControllerApi extends AbstractController
     public function createCategory(Request $request)
     {
         $response = new Response();
+        $query = array();
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -67,13 +68,20 @@ class CategoryControllerApi extends AbstractController
             $em->persist($cat);
             $em->flush();
             
+            $query['valid'] = true; 
+            $query['data'] = array('title' => $content["title"],
+                                   'description' => $content["description"]);
             $response->setStatusCode('201');
         }
         else 
         {
-            $response->setStatusCode('204');
+            $query['valid'] = false; 
+            $query['data'] = null;
+            $response->setStatusCode('404');
         }        
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
@@ -83,6 +91,7 @@ class CategoryControllerApi extends AbstractController
     public function modifyCategory(Request $request, $id)
     {
         $response = new Response();
+        $query = array();
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -107,14 +116,22 @@ class CategoryControllerApi extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-            
+
+            $query['valid'] = true; 
+            $query['data'] = array('id' => $id,
+                                   'title' => $content["title"],
+                                   'description' => $content["description"]);
             $response->setStatusCode('200');
         }
         else 
         {
-            $response->setStatusCode('304');
+            $query['valid'] = false; 
+            $query['data'] = null;
+            $response->setStatusCode('404');
         }        
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
@@ -124,6 +141,7 @@ class CategoryControllerApi extends AbstractController
     public function deleteCategory($id)
     {
         $response = new Response();
+        $query = array();
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -139,13 +157,17 @@ class CategoryControllerApi extends AbstractController
             $em->remove($category);
             $em->flush();
 
+            $query['valid'] = true; 
             $response->setStatusCode('200');
         }
         else
         {
+            $query['valid'] = false; 
             $response->setStatusCode('404');
         }
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 }

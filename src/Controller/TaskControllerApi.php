@@ -48,6 +48,10 @@ class TaskControllerApi extends AbstractController
     public function createTask(Request $request)
     {
         $response = new Response();
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        $query = array();
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -77,15 +81,24 @@ class TaskControllerApi extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($task);
-            $em->flush();
+            $em->flush();            
             
+            $query['valid'] = true; 
+            $query['data'] = array('title' => $content["title"],
+                                   'description' => $content["description"],
+                                   'category' => json_decode($serializer->serialize($category, 'json')),
+                                   'state' => json_decode($serializer->serialize($state, 'json')));
             $response->setStatusCode('201');
         }
         else 
         {
-            $response->setStatusCode('204');
+            $query['valid'] = false; 
+            $query['data'] = null;
+            $response->setStatusCode('404');
         }        
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
@@ -94,7 +107,10 @@ class TaskControllerApi extends AbstractController
     */
     public function modifyTask(Request $request, $id)
     {
-        $response = new Response();
+        $response = new Response();        
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -129,13 +145,22 @@ class TaskControllerApi extends AbstractController
             $em->persist($task);
             $em->flush();
             
+            $query['valid'] = true; 
+            $query['data'] = array('title' => $content["title"],
+                                   'description' => $content["description"],
+                                   'category' => json_decode($serializer->serialize($category, 'json')),
+                                   'state' => json_decode($serializer->serialize($state, 'json')));
             $response->setStatusCode('200');
         }
         else 
         {
-            $response->setStatusCode('304');
+            $query['valid'] = false; 
+            $query['data'] = null;
+            $response->setStatusCode('404');
         }        
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
@@ -160,13 +185,17 @@ class TaskControllerApi extends AbstractController
             $em->remove($task);
             $em->flush();
 
+            $query['valid'] = true;
             $response->setStatusCode('200');
         }
         else
         {
+            $query['valid'] = false;
             $response->setStatusCode('404');
         }
 
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
