@@ -2,12 +2,17 @@
 
 {% block body %}
     {% for task in tasks %}
-        <div>
-            Title: {{ task.title }} </br>
-            Descritpion: {{ task.description }} </br>
-            Category: {{ task.fkCategory.title}} </br>
-            Status : {{ task.fkState.name }} </br>
 
+        <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+            <div class="card-header">{{ task.title }}</div>
+            <div class="card-body">
+                <p style="border-bottom:1px solid;" class="card-text">{{ task.description }}</p>
+                <p class="card-text">Category: {{ task.fkCategory.title }}</p>
+                <p class="card-text">State: {{ task.fkState.name }}</p>
+            </div>
+        </div>
+
+        <div style="padding: 0px 0px 30px 0px;">
             <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/modifyTask/{{ task.id }}"> Modify </a>
             <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/deleteTask/{{ task.id }}"> Delete </a>
         </div>

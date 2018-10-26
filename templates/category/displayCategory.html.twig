@@ -2,10 +2,14 @@
 
 {% block body %}
     {% for category in categories %}
-        <div>
-            Title: {{ category.title }} </br>
-            Descritpion: {{ category.description }} </br>
 
+        <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+            <div class="card-header">{{ category.title }}</div>
+            <div class="card-body">
+                <p class="card-text">{{ category.description }}</p>
+            </div>
+        </div>
+        <div style="padding: 0px 0px 30px 0px;">
             <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/modifyCategory/{{ category.id }}"> Modify </a>
             <a class="btn btn-primary" href="http://localhost/webProject/public/index.php/deleteCategory/{{ category.id }}"> Delete </a>
         </div>
