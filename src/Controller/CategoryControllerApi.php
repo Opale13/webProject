@@ -33,6 +33,7 @@ class CategoryControllerApi extends AbstractController
 
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode('302');
 
         return $response;
@@ -48,8 +49,10 @@ class CategoryControllerApi extends AbstractController
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
 
             return $response;
         }
@@ -95,8 +98,10 @@ class CategoryControllerApi extends AbstractController
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
 
             return $response;
         }
@@ -145,8 +150,10 @@ class CategoryControllerApi extends AbstractController
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
 
             return $response;
         }
