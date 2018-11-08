@@ -15,9 +15,12 @@ class TaskController extends AbstractController
      */
     public function index()
     {
-        $tasks = $this->getDoctrine()
+        try {
+            $tasks = $this->getDoctrine()
                       ->getRepository(Task::class)
                       ->findAll();
+        }
+        catch (Exception $e) {}      
 
         return $this->render('task/displayTask.html.twig', array("tasks" => $tasks));
     }
@@ -27,17 +30,30 @@ class TaskController extends AbstractController
      */
     public function createTask(Request $request)
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
+        try {            
+            $task = new Task();
+            $form = $this->createForm(TaskType::class, $task);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($task);
+                    $em->flush();
 
-            return $this->redirect($this->generateUrl('task'));
+                    $this->addFlash('notice', 'Create with success');                    
+                }
+                catch (Exception $e) {
+                    $this->addFlash('notice', "Doesn't create with success");
+                }
+
+                return $this->redirect($this->generateUrl('task'));                
+            }
+        }
+        catch (Exception $e) {
+            $this->addFlash('notice', "Error");
+            return $this->redirect($this->generateUrl('task'));   
         }
 
         return $this->render('task/createTask.html.twig', array('form' => $form->createView()));
@@ -48,19 +64,32 @@ class TaskController extends AbstractController
     */
     public function modifyTask(Request $request, $id)
     {
-        $task = $this->getDoctrine()
+        try {
+            $task = $this->getDoctrine()
                      ->getRepository(Task::class)
-                     ->find($id);
+                     ->find($id);      
 
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
+            $form = $this->createForm(TaskType::class, $task);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($task);
+                    $em->flush();
 
+                    $this->addFlash('notice', "Modify with success");
+                }
+                catch (Exception $e) {
+                    $this->addFlash('notice', "Doesn't modify with success");
+                }  
+                     
+                return $this->redirect($this->generateUrl('task'));         
+            }
+        }
+        catch (Exception $e) {
+            $this->addFlash('notice', "Error");
             return $this->redirect($this->generateUrl('task'));
         }
 
@@ -72,16 +101,29 @@ class TaskController extends AbstractController
      */
     public function deleteTask($id=null)
     {
-        $tasks = $this->getDoctrine()
+        try {
+            $tasks = $this->getDoctrine()
                       ->getRepository(Task::class)
                       ->findAll();
 
-        if ($id != null) {
-            $em = $this->getdoctrine()->getManager();
-            $task = $em->getRepository(Task::class)->find($id);
-            $em->remove($task);
-            $em->flush();
+            if ($id != null) {
+                try {
+                    $em = $this->getdoctrine()->getManager();
+                    $task = $em->getRepository(Task::class)->find($id);
+                    $em->remove($task);
+                    $em->flush();
+
+                    $this->addFlash('notice', "Delete with success");
+                }
+                catch (Exception $e) {
+                    $this->addFlash('notice', "Doesn't delete with success");
+                }
+                
+            }
         }
+        catch (Exception $e) {
+            $this->addFlash('notice', "Error");
+        }        
 
         return $this->redirect($this->generateUrl('task'));
     }

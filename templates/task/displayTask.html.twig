@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
     {% for task in tasks %}
 
         <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
