@@ -23,17 +23,8 @@ class TaskControllerApi extends AbstractController
      */
     public function index()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
-        {
-            $response = new Response();
-            $response->headers->set('Content-Type', 'application/text');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
-
-            return $response;
-        }
-
+        $response = new Response();
+        $query = array();
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
@@ -42,11 +33,12 @@ class TaskControllerApi extends AbstractController
                       ->getRepository(Task::class)
                       ->findAll();
 
-        $jsonContent = $serializer->serialize($tasks, 'json');
+        $query['valid'] = true; 
+        $query['data'] = json_decode($serializer->serialize($tasks, 'json'));
 
-        $response = new JsonResponse();
-        $response->setContent($jsonContent);
-        $response->setStatusCode('302');
+        $response->setContent(json_encode($query));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode('200');
 
         return $response;
     }

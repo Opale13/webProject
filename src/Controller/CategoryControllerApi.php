@@ -21,6 +21,8 @@ class CategoryControllerApi extends AbstractController
      */
     public function index()
     {
+        $response = new Response();
+        $query = array();
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
@@ -29,12 +31,12 @@ class CategoryControllerApi extends AbstractController
                            ->getRepository(Category::class)
                            ->findAll();
 
-        $jsonContent = $serializer->serialize($categories, 'json');
+        $query['valid'] = true; 
+        $query['data'] = json_decode($serializer->serialize($categories, 'json'));
 
-        $response = new JsonResponse();
-        $response->setContent($jsonContent);
+        $response->setContent(json_encode($query));
         $response->headers->set('Content-Type', 'application/json');
-        $response->setStatusCode('302');
+        $response->setStatusCode('200');
 
         return $response;
     }
