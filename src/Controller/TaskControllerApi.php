@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Serializer;
 class TaskControllerApi extends AbstractController
 {
     /**
-     * @Route("/api/tasks", name="api_task", methods={"GET"})
+     * @Route("/api/tasks", name="api_tasks", methods={"GET"})
      */
     public function index()
     {
@@ -33,12 +33,45 @@ class TaskControllerApi extends AbstractController
                       ->getRepository(Task::class)
                       ->findAll();
 
-        $query['valid'] = true; 
-        $query['data'] = json_decode($serializer->serialize($tasks, 'json'));
+        $jsonContent = $serializer->serialize($tasks, 'json');
 
-        $response->setContent(json_encode($query));
+        $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode('200');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/task/{id}", name="api_task", methods={"GET"})
+     */
+    public function getTask($id)
+    {
+        $response = new Response();
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+        if ($id != null) {
+            $task = $this->getDoctrine()
+                      ->getRepository(Task::class)
+                      ->findAll();
+            
+            if ($task != null) {
+                $jsonContent = $serializer->serialize($task, 'json');
+    
+                $response->setContent($jsonContent);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setStatusCode('200');
+            }
+            else {
+                $response->setStatusCode('404');
+            }
+
+        }        
+        else {
+            $response->setStatusCode('404');
+        }
 
         return $response;
     }

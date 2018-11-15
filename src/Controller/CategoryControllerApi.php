@@ -22,7 +22,6 @@ class CategoryControllerApi extends AbstractController
     public function index()
     {
         $response = new Response();
-        $query = array();
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
@@ -31,12 +30,45 @@ class CategoryControllerApi extends AbstractController
                            ->getRepository(Category::class)
                            ->findAll();
 
-        $query['valid'] = true; 
-        $query['data'] = json_decode($serializer->serialize($categories, 'json'));
+        $jsonContent = $serializer->serialize($categories, 'json');
 
-        $response->setContent(json_encode($query));
+        $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode('200');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/category/{id}", name="api_category", methods={"GET"})
+     */
+    public function getCategory($id)
+    {
+        $response = new Response();
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+        if ($id!= null) {
+            $category = $this->getDoctrine()
+                           ->getRepository(Category::class)
+                           ->find($id);
+            
+            if ($category != null) {
+                $jsonContent = $serializer->serialize($category, 'json');
+    
+                $response->setContent($jsonContent);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setStatusCode('200');
+            }
+            else {
+                $response->setStatusCode('404');
+            }
+
+        }        
+        else {
+            $response->setStatusCode('404');
+        }
 
         return $response;
     }
