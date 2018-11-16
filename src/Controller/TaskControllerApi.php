@@ -55,7 +55,7 @@ class TaskControllerApi extends AbstractController
         if ($id != null) {
             $task = $this->getDoctrine()
                       ->getRepository(Task::class)
-                      ->findAll();
+                      ->find($id);
             
             if ($task != null) {
                 $jsonContent = $serializer->serialize($task, 'json');
