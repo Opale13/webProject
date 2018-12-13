@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
@@ -18,23 +19,27 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $fkCategory;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\State", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $fkState;
 
