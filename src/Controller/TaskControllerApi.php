@@ -36,8 +36,8 @@ class TaskControllerApi extends AbstractController
         $jsonContent = $serializer->serialize($tasks, 'json');
 
         $response->setContent($jsonContent);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->setStatusCode('200');
 
         return $response;

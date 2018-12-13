@@ -34,6 +34,7 @@ class StateControllerApiController extends AbstractController
 
         $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->setStatusCode('200');
 
         return $response;
