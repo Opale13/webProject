@@ -33,6 +33,7 @@ class CategoryControllerApi extends AbstractController
         $jsonContent = $serializer->serialize($categories, 'json');
 
         $response->setContent($jsonContent);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode('200');
 
