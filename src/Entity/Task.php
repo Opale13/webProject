@@ -43,16 +43,31 @@ class Task
      */
     private $fkState;
 
+    /**
+    * Get the id
+    *
+    * @return int
+    */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+    * Get the title
+    *
+    * @return string
+    */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+    * Set the title
+    *
+    * @param string $title
+    */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -60,11 +75,21 @@ class Task
         return $this;
     }
 
+    /**
+    * Get the description
+    *
+    * @return string
+    */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+    * Set the description
+    *
+    * @param string $description
+    */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -72,11 +97,21 @@ class Task
         return $this;
     }
 
+    /**
+    * Get the category
+    *
+    * @return Category
+    */
     public function getFkCategory(): ?Category
     {
         return $this->fkCategory;
     }
 
+    /**
+    * Set the category
+    *
+    * @param Category $fkCategory
+    */
     public function setFkCategory(?Category $fkCategory): self
     {
         $this->fkCategory = $fkCategory;
@@ -84,11 +119,21 @@ class Task
         return $this;
     }
 
+    /**
+    * Get the state
+    *
+    * @return State
+    */
     public function getFkState(): ?State
     {
         return $this->fkState;
     }
 
+    /**
+    * Set the state
+    *
+    * @param State $fkState
+    */
     public function setFkState(?State $fkState): self
     {
         $this->fkState = $fkState;

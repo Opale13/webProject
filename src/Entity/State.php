@@ -30,16 +30,31 @@ class State
         $this->tasks = new ArrayCollection();
     }
 
+    /**
+    * Get the id
+    *
+    * @return int
+    */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+    * Get the name
+    *
+    * @return string
+    */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+    * Set the name
+    *
+    * @param string $name
+    */
     public function setName(string $name): self
     {
         $this->name = $name;

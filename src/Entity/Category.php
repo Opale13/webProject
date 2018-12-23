@@ -29,16 +29,31 @@ class Category
      */
     private $description;
 
+    /**
+    * Get the id
+    *
+    * @return int
+    */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+    * Get the title
+    *
+    * @return string
+    */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+    * Set the title
+    *
+    * @param string $title
+    */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -46,11 +61,21 @@ class Category
         return $this;
     }
 
+    /**
+    * Get the description
+    *
+    * @return string
+    */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+    * Set the description
+    *
+    * @param string $description
+    */
     public function setDescription(string $description): self
     {
         $this->description = $description;
